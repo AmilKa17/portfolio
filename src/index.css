@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  background: #0c0c0c;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Kanit", sans-serif;
+  color: #d7e2ea;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Jack-style bleed: type wider than the viewport, clipped only by the hero */
+.hero-bleed {
+  position: relative;
+  left: 50%;
+  width: 136vw;
+  margin-left: -68vw;
+  margin-top: -0.12em;
+  font-size: clamp(5.2rem, 26vw, 20rem);
+}
+
+.hero-bleed-line {
+  position: relative;
+  left: 50%;
+  width: 118vw;
+  margin-left: -59vw;
+  font-size: clamp(2.8rem, 11.5vw, 11.5rem);
+  white-space: nowrap;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Kanit uppercase sits uneven in the em-box; optical center for pills */
+.pill-btn {
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  height: 52px;
+  padding: 0 2.5rem;
+  border-radius: 9999px;
+  font-family: "Kanit", sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, filter 0.2s ease,
+    box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.pill-btn > span {
+  display: block;
+  transform: translateY(0.08em);
+}
+
+@media (min-width: 768px) {
+  .pill-btn {
+    height: 56px;
+    padding: 0 3rem;
+    font-size: 1rem;
+  }
+}
+
+.pill-btn-ghost {
+  color: #d7e2ea;
+  background: #0c0c0c;
+  border: 2px solid #d7e2ea;
+}
+
+.pill-btn-ghost:hover {
+  color: #0c0c0c;
+  background: #d7e2ea;
+}
+
+.pill-btn-gradient {
+  color: #fff;
+  border: 2px solid #fff;
+  background: linear-gradient(123deg, #18011f 7%, #b600a8 37%, #7621b0 72%, #be4c00 100%);
+  box-shadow: 0 4px 4px rgba(181, 1, 167, 0.25), 4px 4px 12px #7721b1 inset;
+}
+
+.pill-btn-gradient:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 28px rgba(182, 0, 168, 0.45), 4px 4px 12px #7721b1 inset;
+}
+
+.contact-btn-fixed {
+  transform: scale(1);
+  transition: transform 0.22s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-btn-fixed:hover {
+  transform: scale(1.06);
+}
+
+.contact-btn-fixed:active {
+  transform: scale(1.02);
+}
+
+/* Smooth site-scroll preview inside project cards (CSS, ~60fps) */
+.site-scroll-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #161616;
+  container-type: size;
+}
+
+.site-scroll-strip {
+  display: block;
+  width: 100%;
+  max-width: none !important;
+  height: auto;
+  opacity: 0;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  animation-name: site-scroll-pan-y;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-play-state: paused;
+}
+
+.site-scroll-strip.is-ready {
+  opacity: 1;
+  animation-play-state: running;
+  transition: opacity 0.35s ease;
+}
+
+@keyframes site-scroll-pan-y {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    /* % = image height; cqh = frame height; alternate = no jump reset */
+    transform: translate3d(0, calc(-100% + 100cqh), 0);
+  }
+}
