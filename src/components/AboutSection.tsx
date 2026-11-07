@@ -24,9 +24,13 @@ export function AboutSection() {
         x={-80}
         y={0}
         duration={0.9}
-        className="pointer-events-none absolute bottom-[8%] left-[3%] w-[100px] sm:left-[6%] sm:w-[140px] md:left-[10%] md:w-[180px]"
+        className="pointer-events-none absolute bottom-[8%] left-[3%] w-[90px] sm:left-[6%] sm:w-[120px] md:left-[10%] md:w-[160px]"
       >
-        <img src={aboutDecor.object} alt="" className="h-auto w-full" />
+        <img
+          src={aboutDecor.rocket}
+          alt=""
+          className="h-auto w-full -rotate-12"
+        />
       </FadeIn>
 
       <FadeIn
