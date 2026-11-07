@@ -68,7 +68,7 @@ export function AboutSection() {
         </div>
 
         <div className="mt-24 sm:mt-28 md:mt-32" id="contact">
-          <ContactButton href="https://github.com/AmilKa17" label="Написать" />
+          <ContactButton href="#contact" label="Написать" />
         </div>
       </div>
     </section>

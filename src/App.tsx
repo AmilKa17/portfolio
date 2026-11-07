@@ -1,5 +1,6 @@
 import { AboutSection } from './components/AboutSection'
 import { HeroSection } from './components/HeroSection'
+import { LaunchSiteSection } from './components/LaunchSiteSection'
 import { MarqueeSection } from './components/MarqueeSection'
 import { ProjectsSection } from './components/ProjectsSection'
 import { ServicesSection } from './components/ServicesSection'
@@ -14,6 +15,7 @@ export default function App() {
       <AboutSection />
       <ServicesSection />
       <ProjectsSection />
+      <LaunchSiteSection />
     </div>
   )
 }
