@@ -67,7 +67,7 @@ export function AboutSection() {
           />
         </div>
 
-        <div className="mt-24 sm:mt-28 md:mt-32" id="contact">
+        <div className="mt-32 sm:mt-36 md:mt-40" id="contact">
           <ContactButton href="#contact" label="Написать" />
         </div>
       </div>
