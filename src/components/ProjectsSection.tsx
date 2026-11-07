@@ -1,4 +1,9 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from 'framer-motion'
 import { useRef, type ReactNode } from 'react'
 import { projects } from '../data/content'
 import { LiveProjectButton } from './LiveProjectButton'
@@ -119,17 +124,23 @@ function ProjectCard({
 }
 
 export function ProjectsSection() {
+  const reduceMotion = useReducedMotion()
+
   return (
     <section
       id="projects"
-      className="relative z-10 -mt-10 w-full max-w-none rounded-t-[40px] bg-[#0C0C0C] px-5 pb-28 pt-20 sm:-mt-12 sm:rounded-t-[50px] sm:px-8 md:-mt-14 md:rounded-t-[60px] md:px-10"
+      className="relative z-10 -mt-6 w-full max-w-none rounded-t-[48px] bg-[#0C0C0C] px-5 pb-20 pt-20 sm:-mt-8 sm:rounded-t-[56px] sm:px-8 sm:pb-24 md:-mt-10 md:rounded-t-[64px] md:px-10 md:pb-28"
     >
-      <h2
+      <motion.h2
         className="hero-heading mb-14 text-center font-black uppercase leading-none tracking-tight sm:mb-20"
         style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
+        initial={reduceMotion ? false : { opacity: 0, y: 36 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.45 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         Проекты
-      </h2>
+      </motion.h2>
 
       <div className="flex w-full max-w-none flex-col gap-6">
         {projects.map((project, index) => (
