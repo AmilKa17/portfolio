@@ -1,23 +1,28 @@
 import {
   motion,
   useReducedMotion,
+  useScroll,
+  useTransform,
   type Variants,
 } from 'framer-motion'
 import { ArrowRightCircle } from 'lucide-react'
-import { type MouseEvent } from 'react'
+import { type MouseEvent, useRef } from 'react'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
 const VIDEO_SRC = `${import.meta.env.BASE_URL}videos/launch-hero.mp4`
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 44, scale: 0.97 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.15, duration: 0.6, ease: EASE },
+    scale: 1,
+    transition: { delay: i * 0.14, duration: 0.72, ease: EASE },
   }),
 }
+
+const viewportIn = { once: true, amount: 0.28, margin: '0px 0px -8% 0px' } as const
 
 function scrollToContact(event?: MouseEvent) {
   event?.preventDefault()
@@ -31,9 +36,25 @@ function scrollToContact(event?: MouseEvent) {
 
 export function LaunchSiteSection() {
   const reduceMotion = useReducedMotion()
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+
+  const videoY = useTransform(scrollYProgress, [0, 1], [56, -56])
+  const videoScale = useTransform(scrollYProgress, [0, 0.35, 1], [1.06, 1, 1.02])
+  const videoOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.18, 0.42],
+    [0.42, 0.92, 1],
+  )
+  const washOpacity = useTransform(scrollYProgress, [0, 0.28], [0.55, 1])
+  const topBlendOpacity = useTransform(scrollYProgress, [0, 0.22, 0.48], [1, 0.85, 0.55])
 
   return (
     <section
+      ref={sectionRef}
       id="launch"
       className="launch-site-section relative w-full min-h-screen overflow-hidden"
       style={{
@@ -42,7 +63,7 @@ export function LaunchSiteSection() {
         marginTop: -56,
       }}
     >
-      <video
+      <motion.video
         className="absolute inset-0 h-full w-full object-cover"
         src={VIDEO_SRC}
         autoPlay={!reduceMotion}
@@ -50,25 +71,32 @@ export function LaunchSiteSection() {
         loop
         playsInline
         aria-hidden
+        style={
+          reduceMotion
+            ? undefined
+            : { y: videoY, scale: videoScale, opacity: videoOpacity }
+        }
       />
 
       {/* Soft left wash for readable copy */}
-      <div
+      <motion.div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
             'linear-gradient(90deg, rgba(242,242,238,0.62) 0%, rgba(242,242,238,0.28) 40%, rgba(12,12,12,0.08) 72%, transparent 100%)',
+          opacity: reduceMotion ? 1 : washOpacity,
         }}
         aria-hidden
       />
 
       {/* Incoming handoff from dark #projects */}
-      <div
+      <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 z-[1]"
         style={{
           height: 'clamp(96px, 18vh, 180px)',
           background:
             'linear-gradient(180deg, #0C0C0C 0%, rgba(12,12,12,0.72) 38%, rgba(12,12,12,0.22) 72%, transparent 100%)',
+          opacity: reduceMotion ? 1 : topBlendOpacity,
         }}
         aria-hidden
       />
@@ -106,7 +134,8 @@ export function LaunchSiteSection() {
             custom={0}
             variants={fadeUp}
             initial={reduceMotion ? false : 'hidden'}
-            animate="visible"
+            whileInView={reduceMotion ? undefined : 'visible'}
+            viewport={viewportIn}
             style={{
               fontFamily: 'var(--font-heading)',
               fontSize: 'clamp(1.65rem, 5vw, 3rem)',
@@ -123,7 +152,8 @@ export function LaunchSiteSection() {
             custom={1}
             variants={fadeUp}
             initial={reduceMotion ? false : 'hidden'}
-            animate="visible"
+            whileInView={reduceMotion ? undefined : 'visible'}
+            viewport={viewportIn}
           >
             <p
               style={{
@@ -146,8 +176,9 @@ export function LaunchSiteSection() {
             custom={2}
             variants={fadeUp}
             initial={reduceMotion ? false : 'hidden'}
-            animate="visible"
-            className="mt-8 inline-flex items-center justify-between font-semibold"
+            whileInView={reduceMotion ? undefined : 'visible'}
+            viewport={viewportIn}
+            className="mt-14 inline-flex items-center justify-between font-semibold sm:mt-16"
             style={{
               background: '#7342E2',
               color: '#ffffff',
@@ -159,8 +190,8 @@ export function LaunchSiteSection() {
               minWidth: 210,
               gap: 32,
             }}
-            whileHover={{ scale: 1.04, filter: 'brightness(1.1)' }}
-            whileTap={{ scale: 0.96 }}
+            whileHover={reduceMotion ? undefined : { scale: 1.04, filter: 'brightness(1.1)' }}
+            whileTap={reduceMotion ? undefined : { scale: 0.96 }}
             onClick={scrollToContact}
           >
             <span>Запустить сайт</span>
